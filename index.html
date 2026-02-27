@@ -46,6 +46,53 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;back
 .btn-copy:hover{background:var(--ink2);color:#fff;border-color:var(--ink2);}
 .btn-subscribe{background:var(--accent);color:#fff;}
 .btn-subscribe:hover{background:#1e4488;transform:translateY(-1px);box-shadow:0 3px 12px rgba(42,92,170,.25);}
+.btn-send{background:rgba(26,122,74,.1);border:1px solid rgba(26,122,74,.3);color:var(--green);}
+.btn-send:hover{background:var(--green);color:#fff;}
+.btn-send-one{background:rgba(155,44,142,.08);border:1px solid rgba(155,44,142,.25);color:var(--c-행정);}
+.btn-send-one:hover{background:var(--c-행정);color:#fff;}
+
+/* ── 개인발송 모달 ── */
+.send-modal-bg{position:fixed;inset:0;background:rgba(26,31,46,.5);backdrop-filter:blur(4px);z-index:250;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.send-modal-bg.on{opacity:1;pointer-events:auto;}
+.send-modal{background:var(--white);border:1px solid var(--line);border-top:3px solid var(--c-행정);border-radius:12px;width:460px;max-width:calc(100vw - 32px);max-height:82vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15);transform:translateY(10px) scale(.98);transition:transform .2s,opacity .2s;opacity:0;}
+.send-modal-bg.on .send-modal{transform:translateY(0) scale(1);opacity:1;}
+.send-modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--line2);flex-shrink:0;}
+.send-modal-title{font-size:15px;font-weight:700;color:var(--ink);}
+.send-modal-sub{font-size:11px;color:var(--ink4);margin-top:3px;}
+.send-modal-close{background:none;border:none;color:var(--ink4);font-size:17px;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;}
+.send-modal-close:hover{background:var(--paper2);color:var(--ink);}
+.send-modal-body{display:flex;flex-direction:column;flex:1;overflow:hidden;padding:16px 24px 20px;gap:12px;}
+.send-toolbar{display:flex;align-items:center;gap:10px;}
+.send-check-all{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;white-space:nowrap;}
+.send-check-all input{accent-color:var(--c-행정);width:14px;height:14px;}
+.send-search{flex:1;background:var(--paper);border:1.5px solid var(--line);border-radius:7px;padding:7px 12px;font-size:12px;font-family:inherit;color:var(--ink);outline:none;}
+.send-search:focus{border-color:var(--c-행정);background:var(--white);}
+.send-search::placeholder{color:var(--ink4);}
+.send-list{flex:1;overflow-y:auto;border:1px solid var(--line2);border-radius:8px;background:var(--paper);}
+.send-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line2);cursor:pointer;transition:background .1s;}
+.send-item:last-child{border-bottom:none;}
+.send-item:hover{background:var(--paper2);}
+.send-item.checked{background:rgba(155,44,142,.05);}
+.send-item input[type=checkbox]{accent-color:var(--c-행정);width:15px;height:15px;flex-shrink:0;cursor:pointer;}
+.send-item-info{flex:1;min-width:0;}
+.send-item-name{font-size:13px;font-weight:600;color:var(--ink);}
+.send-item-email{font-size:11px;color:var(--ink4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.send-item-dept{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.dept-교무{background:rgba(42,92,170,.1);color:var(--c-교무);}
+.dept-연구{background:rgba(26,122,74,.1);color:var(--c-연구);}
+.dept-학년부{background:rgba(184,150,46,.1);color:var(--c-학년부);}
+.dept-행정{background:rgba(155,44,142,.1);color:var(--c-행정);}
+.dept-기타{background:rgba(109,78,180,.1);color:var(--c-기타);}
+.send-empty{padding:32px;text-align:center;font-size:13px;color:var(--ink4);}
+.send-footer{display:flex;align-items:center;justify-content:space-between;padding-top:4px;flex-shrink:0;}
+.send-selected-count{font-size:12px;color:var(--ink3);font-weight:600;}
+.btn-do-send{padding:9px 22px;background:var(--c-행정);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
+.btn-do-send:hover:not(:disabled){background:#7a1a70;transform:translateY(-1px);}
+.btn-do-send:disabled{background:var(--ink4);cursor:not-allowed;}
+@media(max-width:768px){
+  .send-modal{max-height:90vh;border-radius:16px 16px 0 0;position:fixed;bottom:0;width:100%;max-width:100%;}
+  .send-modal-bg.on .send-modal{transform:translateY(0);}
+}
 .btn-api{background:var(--paper2);border:1px solid var(--line);color:var(--ink4);font-size:11px;padding:5px 10px;}
 .btn-api:hover{border-color:var(--accent);color:var(--accent);}
 
@@ -219,6 +266,8 @@ td.day-c:hover::after{opacity:1;}
     <div class="sync-pill"><span class="s-dot" id="sd"></span><span id="st">미연결</span></div>
     <button class="btn btn-refresh" id="rf">↻ 새로고침</button>
     <button class="btn btn-copy" id="sh">📋 주간표 복사</button>
+    <button class="btn btn-send" id="sendNowBtn">📨 즉시 발송</button>
+    <button class="btn btn-send-one" id="sendOneBtn">👤 개인 발송</button>
     <button class="btn btn-subscribe" id="subBtn">📬 구독 신청</button>
     <button class="btn btn-api" id="cfg">⚙</button>
   </div>
@@ -328,6 +377,37 @@ td.day-c:hover::after{opacity:1;}
     <button class="pop-save" id="psv">저장</button>
   </div>
 </div>
+<!-- ══ 개인발송 모달 ══ -->
+<div class="send-modal-bg" id="sendModal">
+  <div class="send-modal">
+    <div class="send-modal-head">
+      <div>
+        <div class="send-modal-title">👤 개인 발송</div>
+        <div class="send-modal-sub" id="sendModalWeek">—</div>
+      </div>
+      <button class="send-modal-close" id="sendModalClose">✕</button>
+    </div>
+    <div class="send-modal-body">
+      <!-- 전체 선택 + 검색 -->
+      <div class="send-toolbar">
+        <label class="send-check-all">
+          <input type="checkbox" id="checkAll"> 전체 선택
+        </label>
+        <input class="send-search" id="sendSearch" placeholder="이름·이메일 검색">
+      </div>
+      <!-- 구독자 목록 -->
+      <div class="send-list" id="sendList">
+        <div class="send-empty">로딩 중...</div>
+      </div>
+      <!-- 선택 요약 + 발송 -->
+      <div class="send-footer">
+        <span class="send-selected-count" id="selectedCount">0명 선택</span>
+        <button class="btn-do-send" id="doSendBtn" disabled>📨 선택 발송</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -477,6 +557,162 @@ document.getElementById('sh').addEventListener('click',copySchedule);
 document.getElementById('sh2').addEventListener('click',copySchedule);
 document.getElementById('subBtn').addEventListener('click',openSub);
 document.getElementById('subBtn2').addEventListener('click',openSub);
+
+// ── 즉시 발송 ──
+async function sendNow() {
+  if (!apiUrl) {
+    alert('먼저 ⚙ 버튼에서 Apps Script URL을 연결해 주세요.');
+    return;
+  }
+  const subs = await apiFetch({ action: 'getSubscriberCount' });
+  const count = subs?.count ?? 0;
+  if (count === 0) {
+    alert('활성 구독자가 없습니다.\n구독 신청 페이지에서 구독 + 이메일 인증을 완료해 주세요.');
+    return;
+  }
+  const { s, e } = weekRange();
+  const dates = weekDates(wo);
+  const label = `${dates[0].getMonth()+1}/${dates[0].getDate()} ~ ${dates[4].getMonth()+1}/${dates[4].getDate()}`;
+  if (!confirm(`📨 즉시 발송\n\n대상: ${label} 주간업무표\n수신: ${count}명\n\n지금 바로 발송할까요?`)) return;
+
+  const btn = document.getElementById('sendNowBtn');
+  btn.disabled = true; btn.textContent = '발송 중...';
+  toast('발송 중...');
+  try {
+    const res = await apiFetch({ action: 'sendNow', startDate: s, endDate: e });
+    if (res?.success) toast(`✅ ${res.sent}명에게 발송 완료!`);
+    else toast('❌ 오류: ' + (res?.error || '다시 시도해 주세요.'));
+  } catch(err) {
+    toast('❌ 서버 연결 실패');
+  } finally {
+    btn.disabled = false; btn.textContent = '📨 즉시 발송';
+  }
+}
+document.getElementById('sendNowBtn').addEventListener('click', sendNow);
+
+// ── 개인발송 모달 ──
+let allSubs = [];
+let filteredSubs = [];
+
+async function openSendModal() {
+  if (!apiUrl) { alert('먼저 ⚙ 버튼에서 Apps Script URL을 연결해 주세요.'); return; }
+  const modal = document.getElementById('sendModal');
+  const { s, e } = weekRange();
+  const dates = weekDates(wo);
+  document.getElementById('sendModalWeek').textContent =
+    `${dates[0].getMonth()+1}/${dates[0].getDate()} ~ ${dates[4].getMonth()+1}/${dates[4].getDate()} 주간업무표`;
+  modal.classList.add('on');
+  document.getElementById('sendSearch').value = '';
+  document.getElementById('checkAll').checked = false;
+  renderSendList([]);
+  document.getElementById('sendList').innerHTML = '<div class="send-empty">구독자 목록 로딩 중...</div>';
+
+  const res = await apiFetch({ action: 'getSubscribers' });
+  if (!res?.subscribers?.length) {
+    document.getElementById('sendList').innerHTML = '<div class="send-empty">활성 구독자가 없습니다.</div>';
+    return;
+  }
+  allSubs = res.subscribers;
+  filteredSubs = [...allSubs];
+  renderSendList(filteredSubs);
+}
+
+function closeSendModal() {
+  document.getElementById('sendModal').classList.remove('on');
+  allSubs = []; filteredSubs = [];
+}
+
+function renderSendList(subs) {
+  const list = document.getElementById('sendList');
+  if (!subs.length) { list.innerHTML = '<div class="send-empty">검색 결과 없음</div>'; updateSelectedCount(); return; }
+  list.innerHTML = subs.map(s => {
+    const dc = s.dept ? `dept-${s.dept}` : 'dept-기타';
+    return `
+    <label class="send-item" data-email="${s.email}">
+      <input type="checkbox" class="sub-chk" value="${s.email}">
+      <div class="send-item-info">
+        <div class="send-item-name">${s.name}</div>
+        <div class="send-item-email">${s.email}</div>
+      </div>
+      ${s.dept ? `<span class="send-item-dept ${dc}">${s.dept}</span>` : ''}
+    </label>`;
+  }).join('');
+  list.querySelectorAll('.send-item').forEach(item => {
+    item.querySelector('input').addEventListener('change', () => {
+      item.classList.toggle('checked', item.querySelector('input').checked);
+      updateSelectedCount();
+      updateCheckAll();
+    });
+  });
+  updateSelectedCount();
+}
+
+function getCheckedEmails() {
+  return [...document.querySelectorAll('.sub-chk:checked')].map(el => el.value);
+}
+
+function updateSelectedCount() {
+  const n = getCheckedEmails().length;
+  document.getElementById('selectedCount').textContent = `${n}명 선택`;
+  document.getElementById('doSendBtn').disabled = n === 0;
+}
+
+function updateCheckAll() {
+  const all = document.querySelectorAll('.sub-chk');
+  const checked = document.querySelectorAll('.sub-chk:checked');
+  document.getElementById('checkAll').checked = all.length > 0 && all.length === checked.length;
+}
+
+document.getElementById('checkAll').addEventListener('change', e => {
+  document.querySelectorAll('.sub-chk').forEach(chk => {
+    chk.checked = e.target.checked;
+    chk.closest('.send-item').classList.toggle('checked', e.target.checked);
+  });
+  updateSelectedCount();
+});
+
+document.getElementById('sendSearch').addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  filteredSubs = q ? allSubs.filter(s => s.name.toLowerCase().includes(q) || s.email.toLowerCase().includes(q) || (s.dept||'').includes(q)) : [...allSubs];
+  renderSendList(filteredSubs);
+  document.getElementById('checkAll').checked = false;
+});
+
+document.getElementById('sendModalClose').addEventListener('click', closeSendModal);
+document.getElementById('sendModal').addEventListener('click', e => { if (e.target === document.getElementById('sendModal')) closeSendModal(); });
+
+document.getElementById('doSendBtn').addEventListener('click', async () => {
+  const emails = getCheckedEmails();
+  if (!emails.length) return;
+  const { s, e } = weekRange();
+  const names = allSubs.filter(sub => emails.includes(sub.email)).map(sub => sub.name).join(', ');
+  if (!confirm(`📨 개인 발송\n\n수신 (${emails.length}명): ${names}\n\n발송할까요?`)) return;
+
+  const btn = document.getElementById('doSendBtn');
+  btn.disabled = true; btn.textContent = '발송 중...';
+  toast('발송 중...');
+
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'sendToSelected', emails, startDate: s, endDate: e }),
+      headers: { 'Content-Type': 'text/plain' },
+    }).then(r => r.json());
+
+    if (res?.success) {
+      toast(`✅ ${res.sent}명 발송 완료!`);
+      closeSendModal();
+    } else {
+      toast('❌ 오류: ' + (res?.error || '다시 시도해 주세요.'));
+    }
+  } catch {
+    toast('❌ 서버 연결 실패');
+  } finally {
+    btn.disabled = false; btn.textContent = '📨 선택 발송';
+  }
+});
+
+document.getElementById('sendOneBtn').addEventListener('click', openSendModal);
 document.getElementById('cfg').addEventListener('click',toggleApiBar);
 document.getElementById('cfg2').addEventListener('click',toggleApiBar);
 document.getElementById('apiOk').addEventListener('click',()=>{apiUrl=document.getElementById('apiIn').value.trim();localStorage.setItem(API_STORE,apiUrl);document.getElementById('apiBar').classList.add('hide');loadAll();});
