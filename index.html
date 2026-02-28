@@ -13,7 +13,7 @@
   --ink:#1a1f2e; --ink2:#3d4460; --ink3:#6b7280; --ink4:#9ca3af;
   --accent:#2a5caa; --accent-bg:rgba(42,92,170,.08); --accent-bdr:rgba(42,92,170,.2);
   --green:#1a7a4a; --green-bg:rgba(26,122,74,.08); --gold:#b8962e; --red:#c0392b;
-  --c-교무:#2a5caa; --c-연구:#1a7a4a; --c-학년:#b8962e; --c-행정:#9b2c8e; --c-기타:#6d4eb4;
+  --c-교무:#2a5caa; --c-연구:#1a7a4a; --c-학년부:#b8962e; --c-행정:#9b2c8e; --c-기타:#6d4eb4;
   --row-h:56px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -54,7 +54,7 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;back
 .d-tab.all{background:var(--paper2);color:var(--ink3);font-size:9px;}
 .d-tab.교무{background:rgba(42,92,170,.1);color:var(--c-교무);}
 .d-tab.연구{background:rgba(26,122,74,.1);color:var(--c-연구);}
-.d-tab.학년{background:rgba(184,150,46,.1);color:var(--c-학년);}
+.d-tab.학년부{background:rgba(184,150,46,.1);color:var(--c-학년부);}
 .d-tab.행정{background:rgba(155,44,142,.1);color:var(--c-행정);}
 .d-tab.기타{background:rgba(109,78,180,.1);color:var(--c-기타);}
 .d-tab:hover,.d-tab.active{border-color:currentColor;box-shadow:0 2px 8px rgba(0,0,0,.1);}
@@ -96,7 +96,7 @@ td.day-c:hover::after{opacity:1;}
 .ev .ep{font-size:9px;opacity:.4;margin-left:auto;}
 .ev.교무{background:rgba(42,92,170,.18);border-color:var(--c-교무);color:#0f2a5e;}
 .ev.연구{background:rgba(26,122,74,.18);border-color:var(--c-연구);color:#083d22;}
-.ev.학년{background:rgba(184,150,46,.22);border-color:var(--c-학년);color:#5c4400;}
+.ev.학년부{background:rgba(184,150,46,.22);border-color:var(--c-학년부);color:#5c4400;}
 .ev.행정{background:rgba(155,44,142,.18);border-color:var(--c-행정);color:#550d4e;}
 .ev.기타{background:rgba(109,78,180,.18);border-color:var(--c-기타);color:#361e7a;}
 .ev.pending{opacity:.6;border-style:dashed;}
@@ -117,7 +117,7 @@ td.day-c:hover::after{opacity:1;}
 .pd-btn{padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .12s;font-family:inherit;}
 .pd-btn.교무{background:rgba(42,92,170,.1);color:var(--c-교무);}
 .pd-btn.연구{background:rgba(26,122,74,.1);color:var(--c-연구);}
-.pd-btn.학년{background:rgba(184,150,46,.1);color:var(--c-학년);}
+.pd-btn.학년부{background:rgba(184,150,46,.1);color:var(--c-학년부);}
 .pd-btn.행정{background:rgba(155,44,142,.1);color:var(--c-행정);}
 .pd-btn.기타{background:rgba(109,78,180,.1);color:var(--c-기타);}
 .pd-btn.active{border-color:currentColor;}
@@ -169,7 +169,7 @@ td.day-c:hover::after{opacity:1;}
 .mob-tab.active .tl{color:var(--accent);}
 .mob-tab.교무.active .tl{color:var(--c-교무);}
 .mob-tab.연구.active .tl{color:var(--c-연구);}
-.mob-tab.학년.active .tl{color:var(--c-학년);}
+.mob-tab.학년부.active .tl{color:var(--c-학년부);}
 .mob-tab.행정.active .tl{color:var(--c-행정);}
 .mob-tab.기타.active .tl{color:var(--c-기타);}
 
@@ -204,7 +204,7 @@ td.day-c:hover::after{opacity:1;}
 
 <!-- PC 헤더 -->
 <header>
-  <div class="logo"><div class="logo-mark">📅</div>주간업무표</div>
+  <div class="logo"><div class="logo-mark">📅</div>주간업무</div>
   <div class="week-nav">
     <button class="nav-btn" id="pw">‹</button>
     <div class="week-label" id="wl">로딩 중...</div>
@@ -221,7 +221,7 @@ td.day-c:hover::after{opacity:1;}
 <!-- 모바일 헤더 -->
 <div class="mob-header">
   <div class="mob-hdr-top">
-    <div class="mob-logo"><div class="mob-logo-mark">📅</div>주간업무표</div>
+    <div class="mob-logo"><div class="mob-logo-mark">📅</div>주간업무</div>
     <div class="mob-hdr-btns">
       <button class="mob-icon-btn" id="rf2">↻</button>
       <button class="mob-icon-btn" id="sh2">📋</button>
@@ -243,7 +243,7 @@ td.day-c:hover::after{opacity:1;}
     <div class="sidebar-sep"></div>
     <div class="d-tab 교무" data-d="교무">교무</div>
     <div class="d-tab 연구" data-d="연구">연구</div>
-    <div class="d-tab 학년" data-d="학년">학년</div>
+    <div class="d-tab 학년부" data-d="학년부">학년</div>
     <div class="d-tab 행정" data-d="행정">행정</div>
     <div class="d-tab 기타" data-d="기타">기타</div>
   </div>
@@ -261,7 +261,7 @@ td.day-c:hover::after{opacity:1;}
 <div class="sbar">
   <span class="sbar-dept"><span class="dot" style="background:var(--c-교무)"></span>교무</span>
   <span class="sbar-dept"><span class="dot" style="background:var(--c-연구)"></span>연구</span>
-  <span class="sbar-dept"><span class="dot" style="background:var(--c-학년)"></span>학년</span>
+  <span class="sbar-dept"><span class="dot" style="background:var(--c-학년부)"></span>학년</span>
   <span class="sbar-dept"><span class="dot" style="background:var(--c-행정)"></span>행정</span>
   <span class="sbar-dept"><span class="dot" style="background:var(--c-기타)"></span>기타</span>
   <div class="sbar-r"><span id="sc">—</span></div>
@@ -273,7 +273,7 @@ td.day-c:hover::after{opacity:1;}
     <button class="mob-tab all active" data-d="전체"><span class="ti">📋</span><span class="tl">전체</span></button>
     <button class="mob-tab 교무" data-d="교무"><span class="ti">🔵</span><span class="tl">교무</span></button>
     <button class="mob-tab 연구" data-d="연구"><span class="ti">🟢</span><span class="tl">연구</span></button>
-    <button class="mob-tab 학년" data-d="학년"><span class="ti">🟡</span><span class="tl">학년</span></button>
+    <button class="mob-tab 학년부" data-d="학년부"><span class="ti">🟡</span><span class="tl">학년</span></button>
     <button class="mob-tab 행정" data-d="행정"><span class="ti">🟣</span><span class="tl">행정</span></button>
     <button class="mob-tab 기타" data-d="기타"><span class="ti">⚪</span><span class="tl">기타</span></button>
   </div>
@@ -286,7 +286,7 @@ td.day-c:hover::after{opacity:1;}
     <div class="pd-btns">
       <button class="pd-btn 교무 active" data-d="교무">교무</button>
       <button class="pd-btn 연구" data-d="연구">연구</button>
-      <button class="pd-btn 학년" data-d="학년">학년</button>
+      <button class="pd-btn 학년부" data-d="학년부">학년</button>
       <button class="pd-btn 행정" data-d="행정">행정</button>
       <button class="pd-btn 기타" data-d="기타">기타</button>
     </div>
@@ -360,7 +360,7 @@ function buildPeriodOptions(){
 }
 let wo=0,events=JSON.parse(localStorage.getItem(STORE)||'[]'),deptFilter='전체';
 let pop={on:false,date:null,hour:null,eid:null,d:'교무'};
-const apiUrl='__APPS_SCRIPT_URL__'; // ← 실제 URL로 교체
+const apiUrl='https://script.google.com/macros/s/AKfycbyXw6s_6UWYYI-BZs2XeVtw-0dGdoGR19QNWFjzw0VFFLZBOHAgjRhDNGxxatKqysiY/exec';
 
 function ds(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
 function weekDates(o){const d=new Date(),day=d.getDay(),diff=day===0?-6:1-day;d.setDate(d.getDate()+diff+o*7);return Array.from({length:5},(_,i)=>{const n=new Date(d);n.setDate(d.getDate()+i);return n;});}
@@ -494,7 +494,7 @@ function openSub(){
 async function copySchedule(){
   if(apiUrl){const{s,e}=weekRange();const r=await apiFetch({action:'getWeekSummary',startDate:s,endDate:e}).catch(()=>null);if(r?.text){navigator.clipboard.writeText(r.text);toast('주간표 복사됨 ✓');return;}}
   const dates=weekDates(wo);
-  let txt=`📅 주간업무표 (${dates[0].getMonth()+1}/${dates[0].getDate()} ~ ${dates[4].getMonth()+1}/${dates[4].getDate()})\n\n`;
+  let txt=`📅 주간업무 (${dates[0].getMonth()+1}/${dates[0].getDate()} ~ ${dates[4].getMonth()+1}/${dates[4].getDate()})\n\n`;
   dates.forEach((d,i)=>{const date=ds(d);const wk=events.filter(ev=>ev.date===date).sort((a,b)=>a.startTime>b.startTime?1:-1);if(wk.length){txt+=`[${DAYS[i]} ${d.getMonth()+1}/${d.getDate()}]\n`;wk.forEach(ev=>txt+=`  • [${ev.dept}] ${ev.title}${ev.who?' ('+ev.who+')':''} ${ev.allday?'종일':ev.startTime+'~'+ev.endTime}\n`);txt+='\n';}});
   navigator.clipboard.writeText(txt);toast('주간표 복사됨 ✓');
 }
