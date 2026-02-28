@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>충주고등학교 주간업무</title>
+<title>충주고등학교 주간업무표</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -204,7 +204,7 @@ td.day-c:hover::after{opacity:1;}
 
 <!-- PC 헤더 -->
 <header>
-  <div class="logo"><div class="logo-mark">📅</div>주간업무</div>
+  <div class="logo"><div class="logo-mark">📅</div>주간업무표</div>
   <div class="week-nav">
     <button class="nav-btn" id="pw">‹</button>
     <div class="week-label" id="wl">로딩 중...</div>
@@ -221,7 +221,7 @@ td.day-c:hover::after{opacity:1;}
 <!-- 모바일 헤더 -->
 <div class="mob-header">
   <div class="mob-hdr-top">
-    <div class="mob-logo"><div class="mob-logo-mark">📅</div>주간업무</div>
+    <div class="mob-logo"><div class="mob-logo-mark">📅</div>주간업무표</div>
     <div class="mob-hdr-btns">
       <button class="mob-icon-btn" id="rf2">↻</button>
       <button class="mob-icon-btn" id="sh2">📋</button>
@@ -296,11 +296,11 @@ td.day-c:hover::after{opacity:1;}
     <input class="pi" id="pwho" placeholder="담당자 (선택)">
   </div>
   <div class="pr">
-    <div class="pl">교시</div>
-    <div style="display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap;">
-      <select class="pi" id="pst" style="flex:1;min-width:90px;"></select>
+    <div class="pl">시간</div>
+    <div style="display:flex;align-items:center;gap:6px;flex:1;">
+      <input class="pi tm" id="pst" type="time" value="09:00">
       <span style="color:var(--ink4)">~</span>
-      <select class="pi" id="pet" style="flex:1;min-width:90px;"></select>
+      <input class="pi tm" id="pet" type="time" value="10:00">
       <label style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink3);cursor:pointer;white-space:nowrap;">
         <input type="checkbox" id="pad" style="accent-color:var(--accent)"> 종일
       </label>
@@ -335,29 +335,6 @@ const PERIODS = [
 const DAYS=['월','화','수','목','금'];
 const pad=n=>String(n).padStart(2,'0');
 
-// 교시 select 옵션 빌드 (시작/종료 시간 모두)
-function buildPeriodOptions(){
-  const times=[];
-  PERIODS.forEach(p=>{
-    if(!times.includes(p.start)) times.push(p.start);
-    if(!times.includes(p.end))   times.push(p.end);
-  });
-  times.sort();
-  // 교시 라벨 매핑
-  const startMap={};
-  PERIODS.filter(p=>!p.isBreak).forEach(p=>{ startMap[p.start]=p.label; });
-  ['pst','pet'].forEach(id=>{
-    const sel=document.getElementById(id);
-    if(!sel)return;
-    sel.innerHTML='';
-    times.forEach(t=>{
-      const opt=document.createElement('option');
-      opt.value=t;
-      opt.textContent=startMap[t]?startMap[t]+' '+t:t;
-      sel.appendChild(opt);
-    });
-  });
-}
 let wo=0,events=JSON.parse(localStorage.getItem(STORE)||'[]'),deptFilter='전체';
 let pop={on:false,date:null,hour:null,eid:null,d:'교무'};
 const apiUrl='https://script.google.com/macros/s/AKfycbyXw6s_6UWYYI-BZs2XeVtw-0dGdoGR19QNWFjzw0VFFLZBOHAgjRhDNGxxatKqysiY/exec';
@@ -494,7 +471,7 @@ function openSub(){
 async function copySchedule(){
   if(apiUrl){const{s,e}=weekRange();const r=await apiFetch({action:'getWeekSummary',startDate:s,endDate:e}).catch(()=>null);if(r?.text){navigator.clipboard.writeText(r.text);toast('주간표 복사됨 ✓');return;}}
   const dates=weekDates(wo);
-  let txt=`📅 주간업무 (${dates[0].getMonth()+1}/${dates[0].getDate()} ~ ${dates[4].getMonth()+1}/${dates[4].getDate()})\n\n`;
+  let txt=`📅 주간업무표 (${dates[0].getMonth()+1}/${dates[0].getDate()} ~ ${dates[4].getMonth()+1}/${dates[4].getDate()})\n\n`;
   dates.forEach((d,i)=>{const date=ds(d);const wk=events.filter(ev=>ev.date===date).sort((a,b)=>a.startTime>b.startTime?1:-1);if(wk.length){txt+=`[${DAYS[i]} ${d.getMonth()+1}/${d.getDate()}]\n`;wk.forEach(ev=>txt+=`  • [${ev.dept}] ${ev.title}${ev.who?' ('+ev.who+')':''} ${ev.allday?'종일':ev.startTime+'~'+ev.endTime}\n`);txt+='\n';}});
   navigator.clipboard.writeText(txt);toast('주간표 복사됨 ✓');
 }
@@ -504,12 +481,12 @@ function setLov(v){document.getElementById('lov').classList.toggle('hide',!v);}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);}
 
 // 이벤트 바인딩
-document.getElementById('pw').addEventListener('click',()=>{wo--;buildPeriodOptions();render();loadAll();});
-document.getElementById('nw').addEventListener('click',()=>{wo++;buildPeriodOptions();render();loadAll();});
-document.getElementById('tw').addEventListener('click',()=>{wo=0;buildPeriodOptions();render();loadAll();});
-document.getElementById('pw2').addEventListener('click',()=>{wo--;buildPeriodOptions();render();loadAll();});
-document.getElementById('nw2').addEventListener('click',()=>{wo++;buildPeriodOptions();render();loadAll();});
-document.getElementById('tw2').addEventListener('click',()=>{wo=0;buildPeriodOptions();render();loadAll();});
+document.getElementById('pw').addEventListener('click',()=>{wo--;render();loadAll();});
+document.getElementById('nw').addEventListener('click',()=>{wo++;render();loadAll();});
+document.getElementById('tw').addEventListener('click',()=>{wo=0;render();loadAll();});
+document.getElementById('pw2').addEventListener('click',()=>{wo--;render();loadAll();});
+document.getElementById('nw2').addEventListener('click',()=>{wo++;render();loadAll();});
+document.getElementById('tw2').addEventListener('click',()=>{wo=0;render();loadAll();});
 document.getElementById('rf').addEventListener('click',loadAll);
 document.getElementById('rf2').addEventListener('click',loadAll);
 document.getElementById('sh').addEventListener('click',copySchedule);
@@ -527,7 +504,7 @@ document.addEventListener('keydown',e=>{if(!pop.on)return;if(e.key==='Enter'&&!e
 document.addEventListener('mousedown',e=>{if(pop.on&&!e.target.closest('#ipop')&&!e.target.closest('.day-c')&&!e.target.closest('.ev'))closePop();});
 document.getElementById('pad').addEventListener('change',e=>{['pst','pet'].forEach(id=>{const el=document.getElementById(id);el.style.opacity=e.target.checked?.3:1;el.style.pointerEvents=e.target.checked?'none':'';});});
 
-buildPeriodOptions();render();loadAll();
+render();loadAll();
 </script>
 </body>
 </html>
