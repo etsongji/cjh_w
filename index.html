@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>학교 주간업무표</title>
+<title>충주고등학교 주간업무</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -13,8 +13,8 @@
   --ink:#1a1f2e; --ink2:#3d4460; --ink3:#6b7280; --ink4:#9ca3af;
   --accent:#2a5caa; --accent-bg:rgba(42,92,170,.08); --accent-bdr:rgba(42,92,170,.2);
   --green:#1a7a4a; --green-bg:rgba(26,122,74,.08); --gold:#b8962e; --red:#c0392b;
-  --c-교무:#2a5caa; --c-연구:#1a7a4a; --c-학년부:#b8962e; --c-행정:#9b2c8e; --c-기타:#6d4eb4;
-  --row-h:42px;
+  --c-교무:#2a5caa; --c-연구:#1a7a4a; --c-학년:#b8962e; --c-행정:#9b2c8e; --c-기타:#6d4eb4;
+  --row-h:56px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink);}
@@ -33,11 +33,6 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;back
 .today-btn{padding:0 12px;height:30px;background:var(--paper2);border:1px solid var(--line);border-radius:7px;font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;transition:all .15s;font-family:inherit;}
 .today-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
 .hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.sync-pill{display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;background:var(--paper2);border:1px solid var(--line);font-size:11px;color:var(--ink3);white-space:nowrap;}
-.s-dot{width:7px;height:7px;border-radius:50%;background:var(--ink4);transition:background .3s;}
-.s-dot.on{background:var(--green);}
-.s-dot.busy{background:var(--gold);animation:pulse 1s infinite;}
-.s-dot.err{background:var(--red);}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .btn{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .15s;white-space:nowrap;}
 .btn-refresh{background:var(--green-bg);border:1px solid rgba(26,122,74,.3);color:var(--green);}
@@ -46,64 +41,9 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;back
 .btn-copy:hover{background:var(--ink2);color:#fff;border-color:var(--ink2);}
 .btn-subscribe{background:var(--accent);color:#fff;}
 .btn-subscribe:hover{background:#1e4488;transform:translateY(-1px);box-shadow:0 3px 12px rgba(42,92,170,.25);}
-.btn-send{background:rgba(26,122,74,.1);border:1px solid rgba(26,122,74,.3);color:var(--green);}
-.btn-send:hover{background:var(--green);color:#fff;}
-.btn-send-one{background:rgba(155,44,142,.08);border:1px solid rgba(155,44,142,.25);color:var(--c-행정);}
-.btn-send-one:hover{background:var(--c-행정);color:#fff;}
 
-/* ── 개인발송 모달 ── */
-.send-modal-bg{position:fixed;inset:0;background:rgba(26,31,46,.5);backdrop-filter:blur(4px);z-index:250;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
-.send-modal-bg.on{opacity:1;pointer-events:auto;}
-.send-modal{background:var(--white);border:1px solid var(--line);border-top:3px solid var(--c-행정);border-radius:12px;width:460px;max-width:calc(100vw - 32px);max-height:82vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15);transform:translateY(10px) scale(.98);transition:transform .2s,opacity .2s;opacity:0;}
-.send-modal-bg.on .send-modal{transform:translateY(0) scale(1);opacity:1;}
-.send-modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--line2);flex-shrink:0;}
-.send-modal-title{font-size:15px;font-weight:700;color:var(--ink);}
-.send-modal-sub{font-size:11px;color:var(--ink4);margin-top:3px;}
-.send-modal-close{background:none;border:none;color:var(--ink4);font-size:17px;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;}
-.send-modal-close:hover{background:var(--paper2);color:var(--ink);}
-.send-modal-body{display:flex;flex-direction:column;flex:1;overflow:hidden;padding:16px 24px 20px;gap:12px;}
-.send-toolbar{display:flex;align-items:center;gap:10px;}
-.send-check-all{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;white-space:nowrap;}
-.send-check-all input{accent-color:var(--c-행정);width:14px;height:14px;}
-.send-search{flex:1;background:var(--paper);border:1.5px solid var(--line);border-radius:7px;padding:7px 12px;font-size:12px;font-family:inherit;color:var(--ink);outline:none;}
-.send-search:focus{border-color:var(--c-행정);background:var(--white);}
-.send-search::placeholder{color:var(--ink4);}
-.send-list{flex:1;overflow-y:auto;border:1px solid var(--line2);border-radius:8px;background:var(--paper);}
-.send-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line2);cursor:pointer;transition:background .1s;}
-.send-item:last-child{border-bottom:none;}
-.send-item:hover{background:var(--paper2);}
-.send-item.checked{background:rgba(155,44,142,.05);}
-.send-item input[type=checkbox]{accent-color:var(--c-행정);width:15px;height:15px;flex-shrink:0;cursor:pointer;}
-.send-item-info{flex:1;min-width:0;}
-.send-item-name{font-size:13px;font-weight:600;color:var(--ink);}
-.send-item-email{font-size:11px;color:var(--ink4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.send-item-dept{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
-.dept-교무{background:rgba(42,92,170,.1);color:var(--c-교무);}
-.dept-연구{background:rgba(26,122,74,.1);color:var(--c-연구);}
-.dept-학년부{background:rgba(184,150,46,.1);color:var(--c-학년부);}
-.dept-행정{background:rgba(155,44,142,.1);color:var(--c-행정);}
-.dept-기타{background:rgba(109,78,180,.1);color:var(--c-기타);}
-.send-empty{padding:32px;text-align:center;font-size:13px;color:var(--ink4);}
-.send-footer{display:flex;align-items:center;justify-content:space-between;padding-top:4px;flex-shrink:0;}
-.send-selected-count{font-size:12px;color:var(--ink3);font-weight:600;}
-.btn-do-send{padding:9px 22px;background:var(--c-행정);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
-.btn-do-send:hover:not(:disabled){background:#7a1a70;transform:translateY(-1px);}
-.btn-do-send:disabled{background:var(--ink4);cursor:not-allowed;}
-@media(max-width:768px){
-  .send-modal{max-height:90vh;border-radius:16px 16px 0 0;position:fixed;bottom:0;width:100%;max-width:100%;}
-  .send-modal-bg.on .send-modal{transform:translateY(0);}
-}
-.btn-api{background:var(--paper2);border:1px solid var(--line);color:var(--ink4);font-size:11px;padding:5px 10px;}
-.btn-api:hover{border-color:var(--accent);color:var(--accent);}
 
 /* API 배너 */
-.api-bar{position:relative;z-index:19;background:linear-gradient(90deg,var(--accent-bg),rgba(42,92,170,.04));border-bottom:1px solid var(--accent-bdr);padding:8px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap;}
-.api-bar.hide{display:none;}
-.api-bar label{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.08em;white-space:nowrap;}
-.api-bar input{flex:1;min-width:200px;background:var(--white);border:1.5px solid var(--line);border-radius:6px;color:var(--ink);padding:6px 12px;font-size:12px;font-family:'JetBrains Mono',monospace;outline:none;}
-.api-bar input:focus{border-color:var(--accent);}
-.btn-api-ok{padding:6px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
-.btn-api-x{background:transparent;border:1px solid var(--line);color:var(--ink4);padding:5px 8px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px;}
 
 /* 메인 */
 .main{display:flex;flex:1;overflow:hidden;position:relative;z-index:1;}
@@ -114,7 +54,7 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;back
 .d-tab.all{background:var(--paper2);color:var(--ink3);font-size:9px;}
 .d-tab.교무{background:rgba(42,92,170,.1);color:var(--c-교무);}
 .d-tab.연구{background:rgba(26,122,74,.1);color:var(--c-연구);}
-.d-tab.학년부{background:rgba(184,150,46,.1);color:var(--c-학년부);}
+.d-tab.학년{background:rgba(184,150,46,.1);color:var(--c-학년);}
 .d-tab.행정{background:rgba(155,44,142,.1);color:var(--c-행정);}
 .d-tab.기타{background:rgba(109,78,180,.1);color:var(--c-기타);}
 .d-tab:hover,.d-tab.active{border-color:currentColor;box-shadow:0 2px 8px rgba(0,0,0,.1);}
@@ -131,8 +71,17 @@ thead th.tc{color:var(--accent);background:rgba(42,92,170,.04);}
 .th-num{font-family:'Noto Serif KR',serif;font-size:20px;font-weight:700;display:block;line-height:1.1;color:var(--ink);}
 thead th.tc .th-num{color:var(--accent);}
 .th-day{font-size:10px;letter-spacing:.04em;font-weight:600;}
-td.time-c{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink4);text-align:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line2);vertical-align:top;padding-top:5px;background:var(--paper2);position:sticky;left:0;user-select:none;}
+td.time-c{font-family:'Noto Sans KR',sans-serif;font-size:9px;color:var(--ink3);text-align:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line2);vertical-align:middle;padding:3px 2px;background:var(--paper2);position:sticky;left:0;user-select:none;line-height:1.3;font-weight:600;}
+td.time-c.break-row{background:#f3ede0;color:var(--ink4);font-size:8px;font-weight:400;}
+td.time-c .period-label{display:block;font-size:10px;font-weight:700;color:var(--ink2);}
+td.time-c.break-row .period-label{font-size:8px;font-weight:400;color:var(--ink4);}
+td.time-c .period-time{display:block;font-size:8px;color:var(--ink4);font-family:'JetBrains Mono',monospace;font-weight:400;}
+td.day-c.break-row{background:#f8f4ee;cursor:default;}
+td.day-c.break-row:hover{background:#f8f4ee;}
+td.day-c.break-row::after{display:none;}
 td.day-c{border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);height:var(--row-h);vertical-align:top;position:relative;cursor:cell;background:var(--white);transition:background .1s;}
+td.day-c.break-row{height:20px;}
+td.time-c.break-row{height:20px;}
 td.day-c:hover{background:var(--paper);}
 td.day-c.tc{background:rgba(42,92,170,.03);}
 td.day-c.tc:hover{background:rgba(42,92,170,.07);}
@@ -145,11 +94,11 @@ td.day-c:hover::after{opacity:1;}
 .ev .et{overflow:hidden;text-overflow:ellipsis;flex:1;}
 .ev .ew{font-size:10px;opacity:.7;}
 .ev .ep{font-size:9px;opacity:.4;margin-left:auto;}
-.ev.교무{background:rgba(42,92,170,.1);border-color:var(--c-교무);color:#1a3d7a;}
-.ev.연구{background:rgba(26,122,74,.1);border-color:var(--c-연구);color:#0f4f2e;}
-.ev.학년부{background:rgba(184,150,46,.12);border-color:var(--c-학년부);color:#7a5c00;}
-.ev.행정{background:rgba(155,44,142,.1);border-color:var(--c-행정);color:#6b1a62;}
-.ev.기타{background:rgba(109,78,180,.1);border-color:var(--c-기타);color:#4a2d8e;}
+.ev.교무{background:rgba(42,92,170,.18);border-color:var(--c-교무);color:#0f2a5e;}
+.ev.연구{background:rgba(26,122,74,.18);border-color:var(--c-연구);color:#083d22;}
+.ev.학년{background:rgba(184,150,46,.22);border-color:var(--c-학년);color:#5c4400;}
+.ev.행정{background:rgba(155,44,142,.18);border-color:var(--c-행정);color:#550d4e;}
+.ev.기타{background:rgba(109,78,180,.18);border-color:var(--c-기타);color:#361e7a;}
 .ev.pending{opacity:.6;border-style:dashed;}
 
 /* 로딩 */
@@ -168,7 +117,7 @@ td.day-c:hover::after{opacity:1;}
 .pd-btn{padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all .12s;font-family:inherit;}
 .pd-btn.교무{background:rgba(42,92,170,.1);color:var(--c-교무);}
 .pd-btn.연구{background:rgba(26,122,74,.1);color:var(--c-연구);}
-.pd-btn.학년부{background:rgba(184,150,46,.1);color:var(--c-학년부);}
+.pd-btn.학년{background:rgba(184,150,46,.1);color:var(--c-학년);}
 .pd-btn.행정{background:rgba(155,44,142,.1);color:var(--c-행정);}
 .pd-btn.기타{background:rgba(109,78,180,.1);color:var(--c-기타);}
 .pd-btn.active{border-color:currentColor;}
@@ -220,7 +169,7 @@ td.day-c:hover::after{opacity:1;}
 .mob-tab.active .tl{color:var(--accent);}
 .mob-tab.교무.active .tl{color:var(--c-교무);}
 .mob-tab.연구.active .tl{color:var(--c-연구);}
-.mob-tab.학년부.active .tl{color:var(--c-학년부);}
+.mob-tab.학년.active .tl{color:var(--c-학년);}
 .mob-tab.행정.active .tl{color:var(--c-행정);}
 .mob-tab.기타.active .tl{color:var(--c-기타);}
 
@@ -236,7 +185,7 @@ td.day-c:hover::after{opacity:1;}
   thead th{padding:5px 3px 4px;height:46px;}
   .th-num{font-size:15px;}
   .th-day{font-size:9px;}
-  td.day-c{height:34px;}
+  td.day-c{height:44px;}
   td.time-c{font-size:8px;padding-top:4px;}
   .ev{font-size:10px;padding:2px 3px;}
   .ev .ew{display:none;}
@@ -263,13 +212,9 @@ td.day-c:hover::after{opacity:1;}
     <button class="today-btn" id="tw">오늘</button>
   </div>
   <div class="hdr-right">
-    <div class="sync-pill"><span class="s-dot" id="sd"></span><span id="st">미연결</span></div>
     <button class="btn btn-refresh" id="rf">↻ 새로고침</button>
     <button class="btn btn-copy" id="sh">📋 주간표 복사</button>
-    <button class="btn btn-send" id="sendNowBtn">📨 즉시 발송</button>
-    <button class="btn btn-send-one" id="sendOneBtn">👤 개인 발송</button>
     <button class="btn btn-subscribe" id="subBtn">📬 구독 신청</button>
-    <button class="btn btn-api" id="cfg">⚙</button>
   </div>
 </header>
 
@@ -278,10 +223,8 @@ td.day-c:hover::after{opacity:1;}
   <div class="mob-hdr-top">
     <div class="mob-logo"><div class="mob-logo-mark">📅</div>주간업무표</div>
     <div class="mob-hdr-btns">
-      <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink4)"><span class="s-dot" id="sd2"></span><span id="st2"></span></div>
       <button class="mob-icon-btn" id="rf2">↻</button>
       <button class="mob-icon-btn" id="sh2">📋</button>
-      <button class="mob-icon-btn" id="cfg2">⚙</button>
       <button class="mob-sub-btn" id="subBtn2">📬 구독</button>
     </div>
   </div>
@@ -293,14 +236,6 @@ td.day-c:hover::after{opacity:1;}
   </div>
 </div>
 
-<!-- API 배너 -->
-<div class="api-bar hide" id="apiBar">
-  <label>APPS SCRIPT URL</label>
-  <input id="apiIn" placeholder="https://script.google.com/macros/s/…/exec">
-  <button class="btn-api-ok" id="apiOk">연결</button>
-  <button class="btn-api-x" id="apiX">✕</button>
-</div>
-
 <!-- 메인 -->
 <div class="main">
   <div class="sidebar">
@@ -308,7 +243,7 @@ td.day-c:hover::after{opacity:1;}
     <div class="sidebar-sep"></div>
     <div class="d-tab 교무" data-d="교무">교무</div>
     <div class="d-tab 연구" data-d="연구">연구</div>
-    <div class="d-tab 학년부" data-d="학년부">학년부</div>
+    <div class="d-tab 학년" data-d="학년">학년</div>
     <div class="d-tab 행정" data-d="행정">행정</div>
     <div class="d-tab 기타" data-d="기타">기타</div>
   </div>
@@ -326,7 +261,7 @@ td.day-c:hover::after{opacity:1;}
 <div class="sbar">
   <span class="sbar-dept"><span class="dot" style="background:var(--c-교무)"></span>교무</span>
   <span class="sbar-dept"><span class="dot" style="background:var(--c-연구)"></span>연구</span>
-  <span class="sbar-dept"><span class="dot" style="background:var(--c-학년부)"></span>학년부</span>
+  <span class="sbar-dept"><span class="dot" style="background:var(--c-학년)"></span>학년</span>
   <span class="sbar-dept"><span class="dot" style="background:var(--c-행정)"></span>행정</span>
   <span class="sbar-dept"><span class="dot" style="background:var(--c-기타)"></span>기타</span>
   <div class="sbar-r"><span id="sc">—</span></div>
@@ -338,7 +273,7 @@ td.day-c:hover::after{opacity:1;}
     <button class="mob-tab all active" data-d="전체"><span class="ti">📋</span><span class="tl">전체</span></button>
     <button class="mob-tab 교무" data-d="교무"><span class="ti">🔵</span><span class="tl">교무</span></button>
     <button class="mob-tab 연구" data-d="연구"><span class="ti">🟢</span><span class="tl">연구</span></button>
-    <button class="mob-tab 학년부" data-d="학년부"><span class="ti">🟡</span><span class="tl">학년부</span></button>
+    <button class="mob-tab 학년" data-d="학년"><span class="ti">🟡</span><span class="tl">학년</span></button>
     <button class="mob-tab 행정" data-d="행정"><span class="ti">🟣</span><span class="tl">행정</span></button>
     <button class="mob-tab 기타" data-d="기타"><span class="ti">⚪</span><span class="tl">기타</span></button>
   </div>
@@ -351,7 +286,7 @@ td.day-c:hover::after{opacity:1;}
     <div class="pd-btns">
       <button class="pd-btn 교무 active" data-d="교무">교무</button>
       <button class="pd-btn 연구" data-d="연구">연구</button>
-      <button class="pd-btn 학년부" data-d="학년부">학년부</button>
+      <button class="pd-btn 학년" data-d="학년">학년</button>
       <button class="pd-btn 행정" data-d="행정">행정</button>
       <button class="pd-btn 기타" data-d="기타">기타</button>
     </div>
@@ -361,11 +296,11 @@ td.day-c:hover::after{opacity:1;}
     <input class="pi" id="pwho" placeholder="담당자 (선택)">
   </div>
   <div class="pr">
-    <div class="pl">시간</div>
-    <div style="display:flex;align-items:center;gap:6px;flex:1;">
-      <input class="pi tm" id="pst" type="time" value="09:00">
+    <div class="pl">교시</div>
+    <div style="display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap;">
+      <select class="pi" id="pst" style="flex:1;min-width:90px;"></select>
       <span style="color:var(--ink4)">~</span>
-      <input class="pi tm" id="pet" type="time" value="10:00">
+      <select class="pi" id="pet" style="flex:1;min-width:90px;"></select>
       <label style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink3);cursor:pointer;white-space:nowrap;">
         <input type="checkbox" id="pad" style="accent-color:var(--accent)"> 종일
       </label>
@@ -377,47 +312,55 @@ td.day-c:hover::after{opacity:1;}
     <button class="pop-save" id="psv">저장</button>
   </div>
 </div>
-<!-- ══ 개인발송 모달 ══ -->
-<div class="send-modal-bg" id="sendModal">
-  <div class="send-modal">
-    <div class="send-modal-head">
-      <div>
-        <div class="send-modal-title">👤 개인 발송</div>
-        <div class="send-modal-sub" id="sendModalWeek">—</div>
-      </div>
-      <button class="send-modal-close" id="sendModalClose">✕</button>
-    </div>
-    <div class="send-modal-body">
-      <!-- 전체 선택 + 검색 -->
-      <div class="send-toolbar">
-        <label class="send-check-all">
-          <input type="checkbox" id="checkAll"> 전체 선택
-        </label>
-        <input class="send-search" id="sendSearch" placeholder="이름·이메일 검색">
-      </div>
-      <!-- 구독자 목록 -->
-      <div class="send-list" id="sendList">
-        <div class="send-empty">로딩 중...</div>
-      </div>
-      <!-- 선택 요약 + 발송 -->
-      <div class="send-footer">
-        <span class="send-selected-count" id="selectedCount">0명 선택</span>
-        <button class="btn-do-send" id="doSendBtn" disabled>📨 선택 발송</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-const STORE='sched_v7',API_STORE='sched_api';
-const HOURS=Array.from({length:13},(_,i)=>i+8);
+const STORE='sched_v7';
+// 교시별 타임테이블 { label, start, end, isBreak }
+const PERIODS = [
+  { label:'1교시', start:'08:40', end:'09:30' },
+  { label:'쉬는', start:'09:30', end:'09:40', isBreak:true },
+  { label:'2교시', start:'09:40', end:'10:30' },
+  { label:'쉬는', start:'10:30', end:'10:40', isBreak:true },
+  { label:'3교시', start:'10:40', end:'11:30' },
+  { label:'쉬는', start:'11:30', end:'11:40', isBreak:true },
+  { label:'4교시', start:'11:40', end:'12:30' },
+  { label:'점심', start:'12:30', end:'13:30', isBreak:true },
+  { label:'5교시', start:'13:30', end:'14:20' },
+  { label:'쉬는', start:'14:20', end:'14:30', isBreak:true },
+  { label:'6교시', start:'14:30', end:'15:20' },
+  { label:'쉬는', start:'15:20', end:'15:30', isBreak:true },
+  { label:'7교시', start:'15:30', end:'16:20' },
+];
 const DAYS=['월','화','수','목','금'];
 const pad=n=>String(n).padStart(2,'0');
+
+// 교시 select 옵션 빌드 (시작/종료 시간 모두)
+function buildPeriodOptions(){
+  const times=[];
+  PERIODS.forEach(p=>{
+    if(!times.includes(p.start)) times.push(p.start);
+    if(!times.includes(p.end))   times.push(p.end);
+  });
+  times.sort();
+  // 교시 라벨 매핑
+  const startMap={};
+  PERIODS.filter(p=>!p.isBreak).forEach(p=>{ startMap[p.start]=p.label; });
+  ['pst','pet'].forEach(id=>{
+    const sel=document.getElementById(id);
+    if(!sel)return;
+    sel.innerHTML='';
+    times.forEach(t=>{
+      const opt=document.createElement('option');
+      opt.value=t;
+      opt.textContent=startMap[t]?startMap[t]+' '+t:t;
+      sel.appendChild(opt);
+    });
+  });
+}
 let wo=0,events=JSON.parse(localStorage.getItem(STORE)||'[]'),deptFilter='전체';
 let pop={on:false,date:null,hour:null,eid:null,d:'교무'};
-let apiUrl=localStorage.getItem(API_STORE)||'';
+const apiUrl='__APPS_SCRIPT_URL__'; // ← 실제 URL로 교체
 
 function ds(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
 function weekDates(o){const d=new Date(),day=d.getDay(),diff=day===0?-6:1-day;d.setDate(d.getDate()+diff+o*7);return Array.from({length:5},(_,i)=>{const n=new Date(d);n.setDate(d.getDate()+i);return n;});}
@@ -427,10 +370,10 @@ async function apiFetch(p){if(!apiUrl)return null;try{const r=await fetch(apiUrl
 async function apiPost(b){if(!apiUrl)return null;try{const r=await fetch(apiUrl,{method:'POST',body:JSON.stringify(b),headers:{'Content-Type':'text/plain'}});return r.json();}catch{return null;}}
 
 async function loadAll(){
-  setSS('busy');setLov(true);
+setLov(true);
   const{s,e}=weekRange();
   if(apiUrl){const r=await apiFetch({action:'getEvents',startDate:s,endDate:e});if(r?.events){events=events.filter(ev=>ev.date<s||ev.date>e);events=[...events,...r.events];saveLocal();}}
-  setSS(apiUrl?'on':'off');setLov(false);render();
+setLov(false);render();
   toast(`업무 ${events.filter(ev=>{const{s,e}=weekRange();return ev.date>=s&&ev.date<=e;}).length}건`);
 }
 
@@ -452,22 +395,32 @@ function render(){
   });
   thead.appendChild(hr);
   const filtered=deptFilter==='전체'?events:events.filter(ev=>ev.dept===deptFilter);
-  HOURS.forEach(h=>{
+  PERIODS.forEach(p=>{
     const tr=document.createElement('tr');
     const tc=document.createElement('td');
-    tc.className='time-c';tc.textContent=`${pad(h)}:00`;tr.appendChild(tc);
+    tc.className='time-c'+(p.isBreak?' break-row':'');
+    tc.innerHTML='<span class="period-label">'+p.label+'</span><span class="period-time">'+p.start+'</span>';
+    tr.appendChild(tc);
     dates.forEach(d=>{
       const date=ds(d),td=document.createElement('td');
-      td.className='day-c'+(date===today?' tc':'');
-      td.dataset.date=date;td.dataset.hour=h;
-      filtered.filter(ev=>ev.date===date&&parseInt(ev.startTime?.split(':')[0]??h)===h).forEach(ev=>td.appendChild(makeBlock(ev)));
-      td.addEventListener('click',e2=>{if(e2.target.closest('.ev'))return;openPop(e2,date,h,null);});
+      const isToday=date===today;
+      td.className='day-c'+(p.isBreak?' break-row':'')+(isToday?' tc':'');
+      td.dataset.date=date;td.dataset.period=p.start;
+      if(!p.isBreak){
+        filtered.filter(ev=>{
+          if(ev.date!==date)return false;
+          if(ev.allday)return p.label==='1교시';
+          // 이벤트 시작시간이 이 교시 범위 안에 있으면 표시
+          return ev.startTime>=p.start&&ev.startTime<p.end;
+        }).forEach(ev=>td.appendChild(makeBlock(ev)));
+        td.addEventListener('click',e2=>{if(e2.target.closest('.ev'))return;openPop(e2,date,p,null);});
+      }
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
   });
   document.querySelectorAll('.ev[data-id]').forEach(b=>{
-    b.addEventListener('click',e2=>{e2.stopPropagation();const ev=events.find(x=>x.id===b.dataset.id);if(ev)openPop(e2,ev.date,parseInt(ev.startTime||0),ev.id);});
+    b.addEventListener('click',e2=>{e2.stopPropagation();const ev=events.find(x=>x.id===b.dataset.id);if(ev){const p=PERIODS.find(x=>!x.isBreak&&ev.startTime>=x.start&&ev.startTime<x.end)||PERIODS[0];openPop(e2,ev.date,p,ev.id);}});
   });
   document.getElementById('sc').textContent=`이번주 업무 ${events.filter(ev=>ev.date>=s&&ev.date<=e).length}건`;
 }
@@ -480,23 +433,31 @@ function makeBlock(ev){
   const t=ev.allday?'':`<span class="ew">${ev.startTime} </span>`;
   b.innerHTML=`<span class="et">${t}${ev.title}${w}</span>${ev._p?'<span class="ep">⏳</span>':''}`;
   if(!ev.allday&&ev.startTime&&ev.endTime){
+    // 교시 행 기반 높이 계산
+    const rh=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--row-h'))||56;
     const[sh,sm]=ev.startTime.split(':').map(Number),[eh,em]=ev.endTime.split(':').map(Number);
-    const dur=Math.max(30,eh*60+em-sh*60-sm),rh=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--row-h'))||42;
-    b.style.cssText+=`;height:${Math.round(dur/60*rh)-4}px;top:${Math.round(sm/60*rh)+2}px;position:absolute;z-index:5;`;
+    const totalMin=eh*60+em-sh*60-sm;
+    // 걸쳐있는 교시 수 계산 (쉬는시간 제외)
+    const spanPeriods=PERIODS.filter(p=>!p.isBreak&&p.start<ev.endTime&&p.end>ev.startTime).length;
+    const breakSpans=PERIODS.filter(p=>p.isBreak&&p.start>=ev.startTime&&p.end<=ev.endTime).length;
+    const h=Math.max(rh-4, spanPeriods*rh + breakSpans*20 - 4);
+    b.style.cssText+=`;height:${h}px;top:2px;position:absolute;z-index:5;left:2px;right:2px;`;
   }
   return b;
 }
 
-function openPop(e,date,hour,eid){
+function openPop(e,date,period,eid){
   const P=document.getElementById('ipop');
-  pop={on:true,date,hour,eid,d:pop.d};
+  pop={on:true,date,period,eid,d:pop.d};
   const ev=eid?events.find(x=>x.id===eid):null;
   if(ev)pop.d=ev.dept;
   document.querySelectorAll('.pd-btn').forEach(b=>b.classList.toggle('active',b.dataset.d===pop.d));
   document.getElementById('ptitle').value=ev?.title??'';
   document.getElementById('pwho').value=ev?.who??'';
-  document.getElementById('pst').value=ev?.startTime??`${pad(hour)}:00`;
-  document.getElementById('pet').value=ev?.endTime??`${pad(Math.min((hour||9)+1,23))}:00`;
+  const defStart=period?(typeof period==='object'?period.start:pad(period)+':00'):'09:00';
+  const defEnd=period?(typeof period==='object'?period.end:'10:00'):'10:00';
+  document.getElementById('pst').value=ev?.startTime??defStart;
+  document.getElementById('pet').value=ev?.endTime??defEnd;
   document.getElementById('pad').checked=ev?.allday??false;
   document.getElementById('pdel').style.display=eid?'inline-block':'none';
   if(window.innerWidth>768){const x=Math.min(e.clientX,innerWidth-320),y=Math.min(e.clientY+8,innerHeight-270);P.style.cssText=`left:${x}px;top:${y}px;`;}
@@ -538,19 +499,17 @@ async function copySchedule(){
   navigator.clipboard.writeText(txt);toast('주간표 복사됨 ✓');
 }
 
-function toggleApiBar(){const b=document.getElementById('apiBar');b.classList.toggle('hide');if(!b.classList.contains('hide')){document.getElementById('apiIn').value=apiUrl;document.getElementById('apiIn').focus();}}
 function saveLocal(){localStorage.setItem(STORE,JSON.stringify(events));}
 function setLov(v){document.getElementById('lov').classList.toggle('hide',!v);}
-function setSS(s){const states={on:'동기화됨',busy:'로딩...',err:'오류',off:'오프라인'};const cls='s-dot '+(s==='on'?'on':s==='busy'?'busy':s==='err'?'err':'');['sd','sd2'].forEach(id=>{const el=document.getElementById(id);if(el)el.className=cls;});['st','st2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=states[s]||s;});}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);}
 
 // 이벤트 바인딩
-document.getElementById('pw').addEventListener('click',()=>{wo--;render();loadAll();});
-document.getElementById('nw').addEventListener('click',()=>{wo++;render();loadAll();});
-document.getElementById('tw').addEventListener('click',()=>{wo=0;render();loadAll();});
-document.getElementById('pw2').addEventListener('click',()=>{wo--;render();loadAll();});
-document.getElementById('nw2').addEventListener('click',()=>{wo++;render();loadAll();});
-document.getElementById('tw2').addEventListener('click',()=>{wo=0;render();loadAll();});
+document.getElementById('pw').addEventListener('click',()=>{wo--;buildPeriodOptions();render();loadAll();});
+document.getElementById('nw').addEventListener('click',()=>{wo++;buildPeriodOptions();render();loadAll();});
+document.getElementById('tw').addEventListener('click',()=>{wo=0;buildPeriodOptions();render();loadAll();});
+document.getElementById('pw2').addEventListener('click',()=>{wo--;buildPeriodOptions();render();loadAll();});
+document.getElementById('nw2').addEventListener('click',()=>{wo++;buildPeriodOptions();render();loadAll();});
+document.getElementById('tw2').addEventListener('click',()=>{wo=0;buildPeriodOptions();render();loadAll();});
 document.getElementById('rf').addEventListener('click',loadAll);
 document.getElementById('rf2').addEventListener('click',loadAll);
 document.getElementById('sh').addEventListener('click',copySchedule);
@@ -558,166 +517,6 @@ document.getElementById('sh2').addEventListener('click',copySchedule);
 document.getElementById('subBtn').addEventListener('click',openSub);
 document.getElementById('subBtn2').addEventListener('click',openSub);
 
-// ── 즉시 발송 ──
-async function sendNow() {
-  if (!apiUrl) {
-    alert('먼저 ⚙ 버튼에서 Apps Script URL을 연결해 주세요.');
-    return;
-  }
-  const subs = await apiFetch({ action: 'getSubscriberCount' });
-  const count = subs?.count ?? 0;
-  if (count === 0) {
-    alert('활성 구독자가 없습니다.\n구독 신청 페이지에서 구독 + 이메일 인증을 완료해 주세요.');
-    return;
-  }
-  const { s, e } = weekRange();
-  const dates = weekDates(wo);
-  const label = `${dates[0].getMonth()+1}/${dates[0].getDate()} ~ ${dates[4].getMonth()+1}/${dates[4].getDate()}`;
-  if (!confirm(`📨 즉시 발송\n\n대상: ${label} 주간업무표\n수신: ${count}명\n\n지금 바로 발송할까요?`)) return;
-
-  const btn = document.getElementById('sendNowBtn');
-  btn.disabled = true; btn.textContent = '발송 중...';
-  toast('발송 중...');
-  try {
-    const res = await apiFetch({ action: 'sendNow', startDate: s, endDate: e });
-    if (res?.success) toast(`✅ ${res.sent}명에게 발송 완료!`);
-    else toast('❌ 오류: ' + (res?.error || '다시 시도해 주세요.'));
-  } catch(err) {
-    toast('❌ 서버 연결 실패');
-  } finally {
-    btn.disabled = false; btn.textContent = '📨 즉시 발송';
-  }
-}
-document.getElementById('sendNowBtn').addEventListener('click', sendNow);
-
-// ── 개인발송 모달 ──
-let allSubs = [];
-let filteredSubs = [];
-
-async function openSendModal() {
-  if (!apiUrl) { alert('먼저 ⚙ 버튼에서 Apps Script URL을 연결해 주세요.'); return; }
-  const modal = document.getElementById('sendModal');
-  const { s, e } = weekRange();
-  const dates = weekDates(wo);
-  document.getElementById('sendModalWeek').textContent =
-    `${dates[0].getMonth()+1}/${dates[0].getDate()} ~ ${dates[4].getMonth()+1}/${dates[4].getDate()} 주간업무표`;
-  modal.classList.add('on');
-  document.getElementById('sendSearch').value = '';
-  document.getElementById('checkAll').checked = false;
-  renderSendList([]);
-  document.getElementById('sendList').innerHTML = '<div class="send-empty">구독자 목록 로딩 중...</div>';
-
-  const res = await apiFetch({ action: 'getSubscribers' });
-  if (!res?.subscribers?.length) {
-    document.getElementById('sendList').innerHTML = '<div class="send-empty">활성 구독자가 없습니다.</div>';
-    return;
-  }
-  allSubs = res.subscribers;
-  filteredSubs = [...allSubs];
-  renderSendList(filteredSubs);
-}
-
-function closeSendModal() {
-  document.getElementById('sendModal').classList.remove('on');
-  allSubs = []; filteredSubs = [];
-}
-
-function renderSendList(subs) {
-  const list = document.getElementById('sendList');
-  if (!subs.length) { list.innerHTML = '<div class="send-empty">검색 결과 없음</div>'; updateSelectedCount(); return; }
-  list.innerHTML = subs.map(s => {
-    const dc = s.dept ? `dept-${s.dept}` : 'dept-기타';
-    return `
-    <label class="send-item" data-email="${s.email}">
-      <input type="checkbox" class="sub-chk" value="${s.email}">
-      <div class="send-item-info">
-        <div class="send-item-name">${s.name}</div>
-        <div class="send-item-email">${s.email}</div>
-      </div>
-      ${s.dept ? `<span class="send-item-dept ${dc}">${s.dept}</span>` : ''}
-    </label>`;
-  }).join('');
-  list.querySelectorAll('.send-item').forEach(item => {
-    item.querySelector('input').addEventListener('change', () => {
-      item.classList.toggle('checked', item.querySelector('input').checked);
-      updateSelectedCount();
-      updateCheckAll();
-    });
-  });
-  updateSelectedCount();
-}
-
-function getCheckedEmails() {
-  return [...document.querySelectorAll('.sub-chk:checked')].map(el => el.value);
-}
-
-function updateSelectedCount() {
-  const n = getCheckedEmails().length;
-  document.getElementById('selectedCount').textContent = `${n}명 선택`;
-  document.getElementById('doSendBtn').disabled = n === 0;
-}
-
-function updateCheckAll() {
-  const all = document.querySelectorAll('.sub-chk');
-  const checked = document.querySelectorAll('.sub-chk:checked');
-  document.getElementById('checkAll').checked = all.length > 0 && all.length === checked.length;
-}
-
-document.getElementById('checkAll').addEventListener('change', e => {
-  document.querySelectorAll('.sub-chk').forEach(chk => {
-    chk.checked = e.target.checked;
-    chk.closest('.send-item').classList.toggle('checked', e.target.checked);
-  });
-  updateSelectedCount();
-});
-
-document.getElementById('sendSearch').addEventListener('input', e => {
-  const q = e.target.value.trim().toLowerCase();
-  filteredSubs = q ? allSubs.filter(s => s.name.toLowerCase().includes(q) || s.email.toLowerCase().includes(q) || (s.dept||'').includes(q)) : [...allSubs];
-  renderSendList(filteredSubs);
-  document.getElementById('checkAll').checked = false;
-});
-
-document.getElementById('sendModalClose').addEventListener('click', closeSendModal);
-document.getElementById('sendModal').addEventListener('click', e => { if (e.target === document.getElementById('sendModal')) closeSendModal(); });
-
-document.getElementById('doSendBtn').addEventListener('click', async () => {
-  const emails = getCheckedEmails();
-  if (!emails.length) return;
-  const { s, e } = weekRange();
-  const names = allSubs.filter(sub => emails.includes(sub.email)).map(sub => sub.name).join(', ');
-  if (!confirm(`📨 개인 발송\n\n수신 (${emails.length}명): ${names}\n\n발송할까요?`)) return;
-
-  const btn = document.getElementById('doSendBtn');
-  btn.disabled = true; btn.textContent = '발송 중...';
-  toast('발송 중...');
-
-  try {
-    const res = await fetch(apiUrl, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'sendToSelected', emails, startDate: s, endDate: e }),
-      headers: { 'Content-Type': 'text/plain' },
-    }).then(r => r.json());
-
-    if (res?.success) {
-      toast(`✅ ${res.sent}명 발송 완료!`);
-      closeSendModal();
-    } else {
-      toast('❌ 오류: ' + (res?.error || '다시 시도해 주세요.'));
-    }
-  } catch {
-    toast('❌ 서버 연결 실패');
-  } finally {
-    btn.disabled = false; btn.textContent = '📨 선택 발송';
-  }
-});
-
-document.getElementById('sendOneBtn').addEventListener('click', openSendModal);
-document.getElementById('cfg').addEventListener('click',toggleApiBar);
-document.getElementById('cfg2').addEventListener('click',toggleApiBar);
-document.getElementById('apiOk').addEventListener('click',()=>{apiUrl=document.getElementById('apiIn').value.trim();localStorage.setItem(API_STORE,apiUrl);document.getElementById('apiBar').classList.add('hide');loadAll();});
-document.getElementById('apiX').addEventListener('click',()=>document.getElementById('apiBar').classList.add('hide'));
-document.getElementById('apiIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('apiOk').click();});
 document.querySelectorAll('.d-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.d-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');deptFilter=t.dataset.d;render();}));
 document.querySelectorAll('.mob-tab[data-d]').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.mob-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');deptFilter=t.dataset.d;render();}));
 document.querySelectorAll('.pd-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.pd-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');pop.d=b.dataset.d;}));
@@ -728,7 +527,7 @@ document.addEventListener('keydown',e=>{if(!pop.on)return;if(e.key==='Enter'&&!e
 document.addEventListener('mousedown',e=>{if(pop.on&&!e.target.closest('#ipop')&&!e.target.closest('.day-c')&&!e.target.closest('.ev'))closePop();});
 document.getElementById('pad').addEventListener('change',e=>{['pst','pet'].forEach(id=>{const el=document.getElementById(id);el.style.opacity=e.target.checked?.3:1;el.style.pointerEvents=e.target.checked?'none':'';});});
 
-setSS('off');render();loadAll();
+buildPeriodOptions();render();loadAll();
 </script>
 </body>
 </html>
